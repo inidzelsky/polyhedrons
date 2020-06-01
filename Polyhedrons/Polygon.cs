@@ -12,10 +12,26 @@ namespace Polyhedrons
         }
     }
 
-    public class Polygon
+    public class InvalidVertexesCountException : Exception
     {
-        private List<Coords> _coords;
+        public InvalidVertexesCountException(string message) :
+            base(message)
+        {
+        }
+    }
 
+    public class UnknownFigureException : Exception
+    {
+        public UnknownFigureException(string message) :
+            base(message)
+        {
+        }
+    }
+
+    public abstract class Polygon
+    {
+        protected List<Coords> _coords;
+        
         public Polygon(List<Coords> coords)
         {
             _coords = coords;
@@ -39,7 +55,13 @@ namespace Polyhedrons
             return perimeter;
         }
 
-        public double GetSquare() // #TODO Handle 0 - 2 vertexes exception
+        private void ValidateArea(double square)
+        {
+            if (square < 0)
+                throw new InvalidCoordsOrderException("Coords were set in an inappropriate way");
+        }
+
+        public virtual double GetArea() // #TODO Handle 0 - 2 vertexes exception
         {
             double square = 0;
             int coordsCount = _coords.Count;
@@ -57,10 +79,9 @@ namespace Polyhedrons
             square -= _coords[coordsCount - 1].Y * _coords[0].X;
             square /= 2;
 
-            ValidateSquare(square);
+            ValidateArea(square);
             return square;
         }
-
 
         public virtual int GetVertexes() // #TODO Handle 0 vertexes exception
         {
@@ -72,15 +93,13 @@ namespace Polyhedrons
             return _coords;
         }
 
-        private void ValidateSquare(double square)
-        {
-            if (square < 0)
-                throw new InvalidCoordsOrderException("Coords were set in an inappropriate way");
-        }
-
-        private double GetLength(Coords c1, Coords c2)
+        protected double GetLength(Coords c1, Coords c2)
         {
             return Math.Sqrt(Math.Pow(c1.X - c2.X, 2) + Math.Pow(c1.Y - c2.Y, 2));
+        }
+
+        protected virtual void ValidateFigure()
+        {
         }
     }
 }
