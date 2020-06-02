@@ -1,6 +1,6 @@
 namespace Polyhedrons
 {
-    public abstract class Polyhedron
+    public abstract class Polyhedron : Figure
     {
         protected readonly Polygon Base;
 

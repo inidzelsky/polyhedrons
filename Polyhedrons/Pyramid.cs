@@ -4,16 +4,16 @@ namespace Polyhedrons
 {
     public class Pyramid : Polyhedron
     {
-        private readonly Coords _top;
+        private readonly double _height;
 
-        public Pyramid(Polygon @base, Coords top) : base(@base)
+        public Pyramid(Polygon @base, double height) : base(@base)
         {
-            _top = top;
+            _height = height;
         }
 
         public override double GetVolume()
         {
-            return Base.GetArea() * _top.Z / 3;
+            return Base.GetArea() * _height / 3;
         }
 
         public override int GetApexes()
@@ -33,8 +33,8 @@ namespace Polyhedrons
 
         protected override void ValidatePolyhedron()
         {
-            if (Math.Abs(_top.Z) <= 0)
-                throw new InvalidFigureException("The pyramid top can not be 0");
+            if (_height <= 0)
+                throw new InvalidFigureException("The pyramid top can not be equal or less than 0");
         }
     }
 }

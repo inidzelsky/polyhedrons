@@ -3,43 +3,11 @@ using System.Collections.Generic;
 
 namespace Polyhedrons
 {
-    public class InvalidCoordsOrderException : Exception
+    public abstract class Polygon : Figure
     {
-        public InvalidCoordsOrderException(string message) :
-            base(message)
-        {
-        }
-    }
+        protected readonly List<Coords> Coords;
 
-    public class InvalidVertexesCountException : Exception
-    {
-        public InvalidVertexesCountException(string message) :
-            base(message)
-        {
-        }
-    }
-
-    public class InvalidFigureException : Exception
-    {
-        public InvalidFigureException(string message) :
-            base(message)
-        {
-        }
-    }
-
-    public class InvalidBaseFigureException : Exception
-    {
-        public InvalidBaseFigureException(string message) :
-            base(message)
-        {
-        }
-    }
-
-    public abstract class Polygon
-    {
-        protected List<Coords> Coords;
-
-        public Polygon(List<Coords> coords)
+        protected Polygon(List<Coords> coords)
         {
             Coords = coords;
         }

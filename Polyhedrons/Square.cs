@@ -24,7 +24,7 @@ namespace Polyhedrons
             for (int i = 0; i < coordsCount - 1; i++)
             {
                 double testSide = GetLength(Coords[i], Coords[i + 1]);
-                
+
                 if (Math.Abs(testSide - side) > 0)
                     return false;
             }

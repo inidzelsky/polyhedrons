@@ -2,11 +2,12 @@ namespace Polyhedrons
 {
     public class Parallelepiped : Polyhedron
     {
-        private double _height;
+        private readonly double _height;
 
         public Parallelepiped(Polygon @base, double height) : base(@base)
         {
             _height = height;
+            ValidatePolyhedron();
         }
 
         public override double GetVolume()
@@ -29,7 +30,7 @@ namespace Polyhedrons
             return 6;
         }
 
-        protected override void ValidatePolyhedron()
+        protected sealed override void ValidatePolyhedron()
         {
             if ((Base is Rectangle || Base is Parallelogram) == false)
                 throw new InvalidBaseFigureException(
