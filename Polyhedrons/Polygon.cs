@@ -19,9 +19,17 @@ namespace Polyhedrons
         }
     }
 
-    public class UnknownFigureException : Exception
+    public class InvalidFigureException : Exception
     {
-        public UnknownFigureException(string message) :
+        public InvalidFigureException(string message) :
+            base(message)
+        {
+        }
+    }
+
+    public class InvalidBaseFigureException : Exception
+    {
+        public InvalidBaseFigureException(string message) :
             base(message)
         {
         }
@@ -29,27 +37,27 @@ namespace Polyhedrons
 
     public abstract class Polygon
     {
-        protected List<Coords> _coords;
-        
+        protected List<Coords> Coords;
+
         public Polygon(List<Coords> coords)
         {
-            _coords = coords;
+            Coords = coords;
         }
 
         public double GetPerimeter() // #TODO Handle 0 - 1 vertexes exception
         {
             double perimeter = 0;
-            int coordsCount = _coords.Count;
+            int coordsCount = Coords.Count;
 
             if (coordsCount < 2)
                 return perimeter;
 
             for (int i = 0; i < coordsCount - 1; i++)
             {
-                perimeter += GetLength(_coords[i], _coords[i + 1]);
+                perimeter += GetLength(Coords[i], Coords[i + 1]);
             }
 
-            perimeter += GetLength(_coords[coordsCount - 1], _coords[0]);
+            perimeter += GetLength(Coords[coordsCount - 1], Coords[0]);
 
             return perimeter;
         }
@@ -63,33 +71,33 @@ namespace Polyhedrons
         public double GetArea() // #TODO Handle 0 - 2 vertexes exception
         {
             double square = 0;
-            int coordsCount = _coords.Count;
+            int coordsCount = Coords.Count;
 
             if (coordsCount < 3)
                 return square;
 
             for (int i = 0; i < coordsCount - 1; i++)
             {
-                square += _coords[i].X * _coords[i + 1].Y;
-                square -= _coords[i].Y * _coords[i + 1].X;
+                square += Coords[i].X * Coords[i + 1].Y;
+                square -= Coords[i].Y * Coords[i + 1].X;
             }
 
-            square += _coords[coordsCount - 1].X * _coords[0].Y;
-            square -= _coords[coordsCount - 1].Y * _coords[0].X;
+            square += Coords[coordsCount - 1].X * Coords[0].Y;
+            square -= Coords[coordsCount - 1].Y * Coords[0].X;
             square /= 2;
 
             ValidateArea(square);
             return square;
         }
 
-        public int GetVertexes() // #TODO Handle 0 vertexes exception
+        public int GetApexes() // #TODO Handle 0 vertexes exception
         {
-            return _coords.Count;
+            return Coords.Count;
         }
 
         public List<Coords> GetCoords()
         {
-            return _coords;
+            return Coords;
         }
 
         protected double GetLength(Coords c1, Coords c2)
@@ -97,7 +105,7 @@ namespace Polyhedrons
             return Math.Sqrt(Math.Pow(c1.X - c2.X, 2) + Math.Pow(c1.Y - c2.Y, 2));
         }
 
-        protected virtual void ValidateFigure()
+        protected virtual void ValidatePolygon()
         {
         }
     }
