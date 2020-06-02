@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 
 namespace Polyhedrons
 {
@@ -37,7 +36,7 @@ namespace Polyhedrons
             _coords = coords;
         }
 
-        public virtual double GetPerimeter() // #TODO Handle 0 - 1 vertexes exception
+        public double GetPerimeter() // #TODO Handle 0 - 1 vertexes exception
         {
             double perimeter = 0;
             int coordsCount = _coords.Count;
@@ -61,7 +60,7 @@ namespace Polyhedrons
                 throw new InvalidCoordsOrderException("Coords were set in an inappropriate way");
         }
 
-        public virtual double GetArea() // #TODO Handle 0 - 2 vertexes exception
+        public double GetArea() // #TODO Handle 0 - 2 vertexes exception
         {
             double square = 0;
             int coordsCount = _coords.Count;
@@ -83,7 +82,7 @@ namespace Polyhedrons
             return square;
         }
 
-        public virtual int GetVertexes() // #TODO Handle 0 vertexes exception
+        public int GetVertexes() // #TODO Handle 0 vertexes exception
         {
             return _coords.Count;
         }
