@@ -10,7 +10,7 @@ namespace Polyhedrons
             ValidateFigure();
         }
 
-        private double GetAngleСoef(int i)
+        private double GetAngleCoef(int i)
         {
             Index n = (i < GetVertexes() - 1) ? (i + 1) : 0;
 
@@ -19,8 +19,8 @@ namespace Polyhedrons
         
         private bool ValidateSides()
         {
-            return (Math.Abs(GetAngleKoef(0) - GetAngleKoef(2)) <= 0) ^
-                   (Math.Abs(GetAngleKoef(1) - GetAngleKoef(3)) <= 0);
+            return (Math.Abs(GetAngleCoef(0) - GetAngleCoef(2)) <= 0) ^
+                   (Math.Abs(GetAngleCoef(1) - GetAngleCoef(3)) <= 0);
         }
         
         protected sealed override void ValidateFigure()
