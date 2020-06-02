@@ -7,19 +7,19 @@ namespace Polyhedrons
     {
         public Rectangle(List<Coords> coords) : base(coords)
         {
-            ValidateFigure();
+            ValidatePolygon();
         }
 
         private double GetAngle(int i)
         {
             Index p = (i > 0) ? (i - 1) : ^1;
-            Index n = (i < GetVertexes() - 1) ? (i + 1) : 0;
+            Index n = (i < GetApexes() - 1) ? (i + 1) : 0;
 
-            Coords vec1 = new Coords(_coords[p].X - _coords[i].X, _coords[p].Y - _coords[i].Y);
-            Coords vec2 = new Coords(_coords[n].X - _coords[i].X, _coords[n].Y - _coords[i].Y);
+            Coords vec1 = new Coords(Coords[p].X - Coords[i].X, Coords[p].Y - Coords[i].Y);
+            Coords vec2 = new Coords(Coords[n].X - Coords[i].X, Coords[n].Y - Coords[i].Y);
 
             double scalarMult = vec1.X * vec2.X + vec1.Y * vec2.Y;
-            double absMult = GetLength(_coords[i], _coords[p]) * GetLength(_coords[i], _coords[p]);
+            double absMult = GetLength(Coords[i], Coords[p]) * GetLength(Coords[i], Coords[p]);
 
             return Math.Acos(scalarMult / absMult);
         }
@@ -31,13 +31,13 @@ namespace Polyhedrons
                     (Math.Abs(GetAngle(0) - GetAngle(2)) <= 0));
         }
 
-        protected sealed override void ValidateFigure()
+        protected sealed override void ValidatePolygon()
         {
-            if (GetVertexes() != 4)
-                throw new InvalidVertexesCountException($"Rectangle can not have {GetVertexes()} vertexes");
+            if (GetApexes() != 4)
+                throw new InvalidVertexesCountException($"Rectangle can not have {GetApexes()} vertexes");
 
             if (!ValidateAngles())
-                throw new UnknownFigureException("Rectangle can not have different angles");
+                throw new InvalidFigureException("Rectangle can not have different angles");
         }
     }
 }

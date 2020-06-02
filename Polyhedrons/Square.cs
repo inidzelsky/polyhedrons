@@ -8,17 +8,22 @@ namespace Polyhedrons
         public Square(List<Coords> coords) :
             base(coords)
         {
-            ValidateFigure();
+            ValidatePolygon();
+        }
+
+        public double GetSide()
+        {
+            return GetLength(Coords[0], Coords[1]);
         }
 
         private bool ValidateSides()
         {
-            int coordsCount = _coords.Count;
-            double side = GetLength(_coords[^1], _coords[0]);
+            int coordsCount = Coords.Count;
+            double side = GetLength(Coords[^1], Coords[0]);
 
             for (int i = 0; i < coordsCount - 1; i++)
             {
-                double testSide = GetLength(_coords[i], _coords[i + 1]);
+                double testSide = GetLength(Coords[i], Coords[i + 1]);
                 
                 if (Math.Abs(testSide - side) > 0)
                     return false;
@@ -27,13 +32,13 @@ namespace Polyhedrons
             return true;
         }
         
-        protected sealed override void ValidateFigure()
+        protected sealed override void ValidatePolygon()
         {
-            if (GetVertexes() != 4)
-                throw new InvalidVertexesCountException($"Square can not have {GetVertexes()} vertexes");
+            if (GetApexes() != 4)
+                throw new InvalidVertexesCountException($"Square can not have {GetApexes()} vertexes");
             
             if (!ValidateSides())
-                throw new UnknownFigureException("Square can not have different sides");
+                throw new InvalidFigureException("Square can not have different sides");
         }
     }
 }
