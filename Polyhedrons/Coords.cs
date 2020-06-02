@@ -4,13 +4,11 @@ namespace Polyhedrons
     {
         public double X { get; }
         public double Y { get; }
-        public double Z { get; }
 
-        public Coords(double x, double y, double z = 0)
+        public Coords(double x, double y)
         {
             X = x;
             Y = y;
-            Z = z;
         }
     }
 }
