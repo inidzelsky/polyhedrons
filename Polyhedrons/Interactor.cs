@@ -6,12 +6,7 @@ namespace Polyhedrons
     public class Interactor : IInteractor
     {
         private Figure _figure;
-
-        public double GetVolume()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Figure GetFigure()
         {
             return _figure;
@@ -89,6 +84,14 @@ namespace Polyhedrons
                 return ((Polyhedron) _figure).GetBaseArea();
             
             throw new InvalidOperationException("Can`t find the area of the base figure of the polygon");
+        }
+        
+        public double GetVolume()
+        {
+            if (_figure is Polyhedron)
+                return ((Polyhedron) _figure).GetVolume();
+            
+            throw new InvalidOperationException("Can`t find the volume of the polygon");
         }
     }
 }
