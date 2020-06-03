@@ -2,17 +2,15 @@ namespace Polyhedrons
 {
     public class Parallelepiped : Polyhedron
     {
-        private readonly double _height;
-
-        public Parallelepiped(Polygon @base, double height) : base(@base)
+        public Parallelepiped(Polygon @base, double height) : 
+            base(@base, "Parallelepiped", height)
         {
-            _height = height;
             ValidatePolyhedron();
         }
 
         public override double GetVolume()
         {
-            return Base.GetArea() * _height;
+            return Base.GetArea() * Height;
         }
 
         public override int GetApexes()

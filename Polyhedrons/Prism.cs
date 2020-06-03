@@ -2,16 +2,14 @@ namespace Polyhedrons
 {
     public class Prism : Polyhedron
     {
-        private readonly double _height;
-
-        public Prism(Polygon @base, double height) : base(@base)
+        public Prism(Polygon @base, double height) : 
+            base(@base, "Prism", height)
         {
-            _height = height;
         }
 
         public override double GetVolume()
         {
-            return Base.GetArea() * _height;
+            return Base.GetArea() * Height;
         }
 
         public override int GetApexes()

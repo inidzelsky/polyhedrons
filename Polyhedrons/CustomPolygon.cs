@@ -4,7 +4,7 @@ namespace Polyhedrons
 {
     public class CustomPolygon : Polygon
     {
-        public CustomPolygon(List<Coords> coords) : base(coords)
+        public CustomPolygon(List<Coords> coords) : base(coords, "Custom")
         {
         }
     }

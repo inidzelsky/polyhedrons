@@ -5,7 +5,7 @@ namespace Polyhedrons
 {
     public class Rectangle : Polygon
     {
-        public Rectangle(List<Coords> coords) : base(coords)
+        public Rectangle(List<Coords> coords) : base(coords, "Rectangle")
         {
             ValidatePolygon();
         }

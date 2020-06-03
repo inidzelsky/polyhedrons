@@ -5,7 +5,7 @@ namespace Polyhedrons
 {
     public class Parallelogram : Polygon
     {
-        public Parallelogram(List<Coords> coords) : base(coords)
+        public Parallelogram(List<Coords> coords) : base(coords, "Parallelogram")
         {
             ValidatePolygon();
         }

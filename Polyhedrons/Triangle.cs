@@ -4,7 +4,8 @@ namespace Polyhedrons
 {
     public class Triangle : Polygon
     {
-        public Triangle(List<Coords> coords) : base(coords)
+        public Triangle(List<Coords> coords) : 
+            base(coords, "Triangle")
         {
             ValidatePolygon();
         }

@@ -3,10 +3,18 @@ namespace Polyhedrons
     public abstract class Polyhedron : Figure
     {
         protected readonly Polygon Base;
+        protected readonly double Height;
+        public string Type { get; }
 
-        protected Polyhedron(Polygon @base)
+        protected Polyhedron()
+        {
+        }
+
+        protected Polyhedron(Polygon @base, string type, double height)
         {
             Base = @base;
+            Type = type;
+            Height = height;
         }
 
         public double GetBaseArea()
@@ -21,6 +29,16 @@ namespace Polyhedrons
         public abstract int GetEdges();
 
         public abstract int GetBrinks();
+
+        public double GetHeight()
+        {
+            return Height;
+        }
+
+        public Polygon GetBaseFigure()
+        {
+            return Base;
+        }
 
         protected virtual void ValidatePolyhedron()
         {

@@ -6,7 +6,7 @@ namespace Polyhedrons
     public class Square : Polygon
     {
         public Square(List<Coords> coords) :
-            base(coords)
+            base(coords, "Square")
         {
             ValidatePolygon();
         }

@@ -37,7 +37,7 @@ namespace Polyhedrons
             switch (type.ToLower())
             {
                 case "cube":
-                    return new Cube(polygon);
+                    return new Cube(polygon, ((Square) polygon).GetSide());
 
                 case "parallelepiped":
                     return new Parallelepiped(polygon, height);

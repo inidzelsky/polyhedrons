@@ -6,10 +6,11 @@ namespace Polyhedrons
     public abstract class Polygon : Figure
     {
         protected readonly List<Coords> Coords;
-
-        protected Polygon(List<Coords> coords)
+        public string Type { get; }
+        protected Polygon(List<Coords> coords, string type)
         {
             Coords = coords;
+            Type = type;
         }
 
         public double GetPerimeter() // #TODO Handle 0 - 1 vertexes exception

@@ -4,7 +4,8 @@ namespace Polyhedrons
 {
     public class Cube : Polyhedron
     {
-        public Cube(Polygon @base) : base(@base)
+        public Cube(Polygon @base, double height) : 
+            base(@base, "Cube", height)
         {
             ValidatePolyhedron();
         }

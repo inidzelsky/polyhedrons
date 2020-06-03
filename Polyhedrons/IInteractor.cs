@@ -13,6 +13,12 @@ namespace Polyhedrons
         int GetBrinks();
         double GetBaseArea();
         double GetVolume();
+        void SavePolygon(string name);
+        void SavePolyhedron(string name);
+        void OpenPolygon(string name);
+        void OpenPolyhedron(string name);
+        int GetPolygonsCount();
+        int GetPolyhedronsCount();
         Figure GetFigure();
     }
 }

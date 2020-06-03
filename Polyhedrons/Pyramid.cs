@@ -4,16 +4,14 @@ namespace Polyhedrons
 {
     public class Pyramid : Polyhedron
     {
-        private readonly double _height;
-
-        public Pyramid(Polygon @base, double height) : base(@base)
+        public Pyramid(Polygon @base, double height) : 
+            base(@base, "Pyramid", height)
         {
-            _height = height;
         }
 
         public override double GetVolume()
         {
-            return Base.GetArea() * _height / 3;
+            return Base.GetArea() * Height / 3;
         }
 
         public override int GetApexes()
@@ -33,7 +31,7 @@ namespace Polyhedrons
 
         protected override void ValidatePolyhedron()
         {
-            if (_height <= 0)
+            if (Height <= 0)
                 throw new InvalidFigureException("The pyramid top can not be equal or less than 0");
         }
     }
