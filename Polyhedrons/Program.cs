@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace Polyhedrons
 {
@@ -6,7 +6,11 @@ namespace Polyhedrons
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IDatabase postgresDatabase = new PostgresDatabase();
+            IInteractor interactor = new Interactor(postgresDatabase);
+            IController controller = new Controller(interactor);
+
+            controller.ShowMainMenu();
         }
     }
 }

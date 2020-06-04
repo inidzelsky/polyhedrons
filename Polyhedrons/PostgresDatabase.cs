@@ -1,62 +1,23 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using Npgsql;
 
 namespace Polyhedrons
 {
-    public class FigureData
-    {
-        public List<Coords> Coords { get; set; }
-        public string PolygonType { get; set; }
-        public string PolyhedronType { get; set; }
-        public double Height { get; set; }
-        
-        public static Dictionary<string, double[]> GetArraysFromCoords(List<Coords> coords)
-        {
-            List<double> xCoords = new List<double>();
-            List<double> yCoords = new List<double>();
-
-            foreach (var item in coords)
-            {
-                xCoords.Add(item.X);
-                yCoords.Add(item.Y);
-            }
-            
-            return new Dictionary<string, double[]>
-            {
-                {"xCoords", xCoords.ToArray()},
-                {"yCoords", yCoords.ToArray()}
-            };
-        }
-
-        public static List<Coords> GetCoordsFromArrays(double[] xCoords, double[] yCoords)
-        {
-            List<Coords> coords = new List<Coords>();
-
-            for (int i = 0; i < xCoords.Length; i++)
-            {
-                coords.Add(new Coords(xCoords[i], yCoords[i]));
-            }
-
-            return coords;
-        }
-    }
-    
     public class PostgresDatabase : IDatabase
     {
         public void SavePolygon(FigureData polygon, string name)
         {
             var connection = PostgresConnection.GetInstance();
-            
+
             try
             {
                 connection.Open();
 
                 string sql = "insert into polygons (name, type, x_coords, y_coords) " +
                              "values (@name, @type, @x_coords, @y_coords)";
-                
+
                 var command = new NpgsqlCommand(sql, connection);
 
                 command.Parameters.AddWithValue("@name", name);
@@ -81,14 +42,14 @@ namespace Polyhedrons
         public void SavePolyhedron(FigureData polyhedron, string name)
         {
             var connection = PostgresConnection.GetInstance();
-            
+
             try
             {
                 connection.Open();
 
                 string sql = "insert into polyhedrons (name, type, base_type, x_coords, y_coords, height) " +
                              "values (@name, @type, @base_type, @x_coords, @y_coords, @height)";
-                
+
                 var command = new NpgsqlCommand(sql, connection);
 
                 command.Parameters.AddWithValue("@name", name);
@@ -113,7 +74,7 @@ namespace Polyhedrons
             }
         }
 
-        public FigureData OpenPolygon(string name)
+        public FigureData LoadPolygon(string name)
         {
             var connection = PostgresConnection.GetInstance();
             try
@@ -121,7 +82,7 @@ namespace Polyhedrons
                 connection.Open();
 
                 string sql = "select type, x_coords, y_coords from polygons where name=@name";
-                
+
                 var command = new NpgsqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@name", name);
 
@@ -129,10 +90,10 @@ namespace Polyhedrons
 
                 if (!dataReader.Read())
                     throw new DataException("Figure does not exist");
-                
+
                 FigureData figureData = new FigureData();
-                figureData.PolygonType = (string)dataReader[0];
-                figureData.Coords = FigureData.GetCoordsFromArrays((double [])dataReader[1], (double [])dataReader[2]);
+                figureData.PolygonType = (string) dataReader[0];
+                figureData.Coords = FigureData.GetCoordsFromArrays((double[]) dataReader[1], (double[]) dataReader[2]);
 
                 return figureData;
             }
@@ -146,7 +107,7 @@ namespace Polyhedrons
             }
         }
 
-        public FigureData OpenPolyhedron(string name)
+        public FigureData LoadPolyhedron(string name)
         {
             var connection = PostgresConnection.GetInstance();
             try
@@ -154,21 +115,21 @@ namespace Polyhedrons
                 connection.Open();
 
                 string sql = "select base_type, type, x_coords, y_coords, height from polyhedrons where name=@name";
-                
+
                 var command = new NpgsqlCommand(sql, connection);
                 command.Parameters.AddWithValue("@name", name);
 
                 var dataReader = command.ExecuteReader();
                 if (!dataReader.Read())
                     throw new DataException("Figure does not exist");
-                
+
                 FigureData figureData = new FigureData();
-                
-                figureData.PolygonType = (string)dataReader[0];
+
+                figureData.PolygonType = (string) dataReader[0];
                 figureData.PolyhedronType = (string) dataReader[1];
-                figureData.Coords = FigureData.GetCoordsFromArrays((double [])dataReader[2], (double [])dataReader[3]);
+                figureData.Coords = FigureData.GetCoordsFromArrays((double[]) dataReader[2], (double[]) dataReader[3]);
                 figureData.Height = (double) dataReader[4];
-                
+
                 return figureData;
             }
             catch (Exception e)
@@ -179,7 +140,7 @@ namespace Polyhedrons
             {
                 connection.Close();
             }
-            
+
             return new FigureData();
         }
 
@@ -187,13 +148,13 @@ namespace Polyhedrons
         {
             var connection = PostgresConnection.GetInstance();
             int result = -1;
-            
+
             try
             {
                 connection.Open();
-                
+
                 var command = new NpgsqlCommand("select polygons_count()", connection);
-                result = (int)command.ExecuteScalar();
+                result = (int) command.ExecuteScalar();
             }
             catch (Exception e)
             {
@@ -202,9 +163,8 @@ namespace Polyhedrons
             finally
             {
                 connection.Close();
-                
             }
-            
+
             return result;
         }
 
@@ -212,13 +172,13 @@ namespace Polyhedrons
         {
             var connection = PostgresConnection.GetInstance();
             int result = -1;
-            
+
             try
             {
                 connection.Open();
-                
+
                 var command = new NpgsqlCommand("select polyhedrons_count()", connection);
-                result = (int)command.ExecuteScalar();
+                result = (int) command.ExecuteScalar();
             }
             catch (Exception e)
             {
@@ -227,9 +187,8 @@ namespace Polyhedrons
             finally
             {
                 connection.Close();
-                
             }
-            
+
             return result;
         }
 
@@ -237,13 +196,13 @@ namespace Polyhedrons
         {
             var connection = PostgresConnection.GetInstance();
             int result = -1;
-            
+
             try
             {
                 connection.Open();
-                
+
                 var command = new NpgsqlCommand("select polyhedrons_count() + polygons_count()", connection);
-                result = (int)command.ExecuteScalar();
+                result = (int) command.ExecuteScalar();
             }
             catch (Exception e)
             {
@@ -252,9 +211,8 @@ namespace Polyhedrons
             finally
             {
                 connection.Close();
-                
             }
-            
+
             return result;
         }
     }
