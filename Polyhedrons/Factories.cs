@@ -24,12 +24,15 @@ namespace Polyhedrons
                 case "trapeze":
                     return new Trapeze(coords);
 
+                case "custom":
+                    return new CustomPolygon(coords);
+
                 default:
                     throw new IOException($"Invalid input. {type} figure does not exist");
             }
         }
     }
-    
+
     public class PolyhedronFactory
     {
         public static Polyhedron FactoryMethod(string type, Polygon polygon, double height = 0)
@@ -37,6 +40,9 @@ namespace Polyhedrons
             switch (type.ToLower())
             {
                 case "cube":
+                    if (polygon is Square == false)
+                        throw new InvalidBaseFigureException("Cube can be created only from the square");
+
                     return new Cube(polygon, ((Square) polygon).GetSide());
 
                 case "parallelepiped":
@@ -47,7 +53,7 @@ namespace Polyhedrons
 
                 case "prism":
                     return new Prism(polygon, height);
-                
+
                 default:
                     throw new IOException($"Invalid input. {type} figure does not exist");
             }

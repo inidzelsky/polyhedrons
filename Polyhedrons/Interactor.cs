@@ -12,35 +12,52 @@ namespace Polyhedrons
         {
             _database = database;
         }
-        
+
         public Figure GetFigure()
         {
             return _figure;
         }
 
-        public void CreatePolygon(string type, List<Coords> coords)
+        public void SetFigure(Figure figure)
+        {
+            _figure = figure;
+        }
+
+        public Polygon CreatePolygon(string type, List<Coords> coords)
         {
             try
             {
-                Figure figure = PolygonFactory.FactoryMethod(type, coords);
-                _figure = figure;
+                Polygon polygon = PolygonFactory.FactoryMethod(type, coords);
+                return polygon;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+                return null;
             }
         }
 
-        public void CreatePolyhedron(string type, Polygon polygon, double height = 0)
+        public Polyhedron CreatePolyhedron(string type, Polygon polygon, double height = 0)
         {
             try
             {
-                Figure figure = PolyhedronFactory.FactoryMethod(type, polygon, height);
-                _figure = figure;
+                Polyhedron polyhedron = PolyhedronFactory.FactoryMethod(type, polygon, height);
+
+                return polyhedron;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+
+                return null;
             }
         }
 
@@ -48,7 +65,7 @@ namespace Polyhedrons
         {
             if (_figure is Polygon)
                 return ((Polygon) _figure).GetPerimeter();
-            
+
             throw new InvalidOperationException("Can`t find the perimeter of the polyhedron");
         }
 
@@ -56,7 +73,7 @@ namespace Polyhedrons
         {
             if (_figure is Polygon)
                 return ((Polygon) _figure).GetArea();
-            
+
             throw new InvalidOperationException("Can`t find the area of the polyhedron");
         }
 
@@ -72,7 +89,7 @@ namespace Polyhedrons
         {
             if (_figure is Polyhedron)
                 return ((Polyhedron) _figure).GetEdges();
-            
+
             throw new InvalidOperationException("Can`t find the edges of the polygon");
         }
 
@@ -80,7 +97,7 @@ namespace Polyhedrons
         {
             if (_figure is Polyhedron)
                 return ((Polyhedron) _figure).GetBrinks();
-            
+
             throw new InvalidOperationException("Can`t find the edges of the polygon");
         }
 
@@ -88,84 +105,152 @@ namespace Polyhedrons
         {
             if (_figure is Polyhedron)
                 return ((Polyhedron) _figure).GetBaseArea();
-            
+
             throw new InvalidOperationException("Can`t find the area of the base figure of the polygon");
         }
-        
+
         public double GetVolume()
         {
             if (_figure is Polyhedron)
                 return ((Polyhedron) _figure).GetVolume();
-            
+
             throw new InvalidOperationException("Can`t find the volume of the polygon");
         }
 
-        public void SavePolygon(string name)
-        {
-            if (_figure is Polyhedron)
-                throw new InvalidOperationException("Can`t save polyhedron to polygons table");
-
-            Polygon polygon = (Polygon) _figure;
-            FigureData figureData = new FigureData();
-            
-            figureData.PolygonType = polygon.Type;
-            figureData.Coords = polygon.GetCoords();
-            
-            _database.SavePolygon(figureData, name);
-        }
-
-        public void SavePolyhedron(string name)
-        {
-            if (_figure is Polygon)
-                throw new InvalidOperationException("Can`t save polygon to polyhedrons table");
-
-            Polyhedron polyhedron = (Polyhedron) _figure;
-            FigureData figureData = new FigureData();
-            
-            figureData.PolyhedronType = polyhedron.Type;
-            figureData.PolygonType = polyhedron.GetBaseFigure().Type;
-            figureData.Coords = polyhedron.GetBaseFigure().GetCoords();
-            figureData.Height = polyhedron.GetHeight();
-            
-            _database.SavePolyhedron(figureData, name);
-        }
-
-        public void OpenPolygon(string name)
+        public bool SavePolygon(string name)
         {
             try
             {
-                FigureData figureData = _database.OpenPolygon(name);
-                CreatePolygon(figureData.PolygonType, figureData.Coords);
+                if (_figure is Polyhedron)
+                    throw new InvalidOperationException("Can`t save polyhedron to polygons table");
+
+                Polygon polygon = (Polygon) _figure;
+                FigureData figureData = new FigureData();
+
+                figureData.PolygonType = polygon.Type;
+                figureData.Coords = polygon.GetCoords();
+
+                _database.SavePolygon(figureData, name);
+
+                return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+
+                return false;
             }
         }
 
-        public void OpenPolyhedron(string name)
+        public bool SavePolyhedron(string name)
         {
             try
             {
-                FigureData figureData = _database.OpenPolygon(name);
-            
+                if (_figure is Polygon)
+                    throw new InvalidOperationException("Can`t save polygon to polyhedrons table");
+
+                Polyhedron polyhedron = (Polyhedron) _figure;
+                FigureData figureData = new FigureData();
+
+                figureData.PolyhedronType = polyhedron.Type;
+                figureData.PolygonType = polyhedron.GetBaseFigure().Type;
+                figureData.Coords = polyhedron.GetBaseFigure().GetCoords();
+                figureData.Height = polyhedron.GetHeight();
+
+                _database.SavePolyhedron(figureData, name);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+
+                return false;
+            }
+        }
+
+        public Polygon LoadPolygon(string name)
+        {
+            try
+            {
+                FigureData figureData = _database.LoadPolygon(name);
+                return CreatePolygon(figureData.PolygonType, figureData.Coords);
+            }
+            catch (Exception e)
+            {
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+
+                return null;
+            }
+        }
+
+        public Polyhedron LoadPolyhedron(string name)
+        {
+            try
+            {
+                FigureData figureData = _database.LoadPolyhedron(name);
+
                 Polygon polygon = PolygonFactory.FactoryMethod(figureData.PolygonType, figureData.Coords);
-                CreatePolyhedron(figureData.PolyhedronType, polygon, figureData.Height);
+                return CreatePolyhedron(figureData.PolyhedronType, polygon, figureData.Height);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+
+                return null;
             }
         }
 
         public int GetPolygonsCount()
         {
-            return _database.PolygonsCount();
+            try
+            {
+                return _database.PolygonsCount();
+            }
+            catch (Exception e)
+            {
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+            }
+
+            return 0;
         }
-        
+
         public int GetPolyhedronsCount()
         {
-            return _database.PolyhedronsCount();
+            try
+            {
+                return _database.PolyhedronsCount();
+            }
+            catch (Exception e)
+            {
+                Console.Clear();
+
+                ConsoleView.ColorizeError(e.Message);
+
+                Console.WriteLine();
+            }
+
+            return 0;
         }
     }
 }

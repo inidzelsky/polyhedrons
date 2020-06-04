@@ -7,8 +7,8 @@ namespace Polyhedrons
     {
         void SavePolygon(FigureData polygon, string name);
         void SavePolyhedron(FigureData polyhedron, string name);
-        FigureData OpenPolygon(string name);
-        FigureData OpenPolyhedron(string name);
+        FigureData LoadPolygon(string name);
+        FigureData LoadPolyhedron(string name);
         int PolygonsCount();
         int PolyhedronsCount();
         int FiguresCount();

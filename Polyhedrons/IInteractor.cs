@@ -4,8 +4,8 @@ namespace Polyhedrons
 {
     public interface IInteractor
     {
-        void CreatePolygon(string type, List<Coords> coords);
-        void CreatePolyhedron(string type, Polygon polygon, double height = 0);
+        Polygon CreatePolygon(string type, List<Coords> coords);
+        Polyhedron CreatePolyhedron(string type, Polygon polygon, double height = 0);
         double GetPerimeter();
         double GetArea();
         int GetApexes();
@@ -13,12 +13,13 @@ namespace Polyhedrons
         int GetBrinks();
         double GetBaseArea();
         double GetVolume();
-        void SavePolygon(string name);
-        void SavePolyhedron(string name);
-        void OpenPolygon(string name);
-        void OpenPolyhedron(string name);
+        bool SavePolygon(string name);
+        bool SavePolyhedron(string name);
+        Polygon LoadPolygon(string name);
+        Polyhedron LoadPolyhedron(string name);
         int GetPolygonsCount();
         int GetPolyhedronsCount();
         Figure GetFigure();
+        void SetFigure(Figure figure);
     }
 }
