@@ -221,62 +221,72 @@ namespace Polyhedrons
             List<Coords> coords = null;
 
             Console.Clear();
-            switch (input)
+
+            try
             {
-                case "1":
-                    coords = ReadCoords(4);
-                    if (coords != null)
-                        figure = _interactor.CreatePolygon("square", coords);
+                switch (input)
+                {
+                    case "1":
+                        coords = ReadCoords(4);
+                        if (coords != null)
+                            figure = _interactor.CreatePolygon("square", coords);
 
-                    break;
+                        break;
 
-                case "2":
-                    coords = ReadCoords(4);
+                    case "2":
+                        coords = ReadCoords(4);
 
-                    if (coords != null)
-                        figure = _interactor.CreatePolygon("rectangle", coords);
+                        if (coords != null)
+                            figure = _interactor.CreatePolygon("rectangle", coords);
 
-                    break;
+                        break;
 
-                case "3":
-                    coords = ReadCoords(4);
+                    case "3":
+                        coords = ReadCoords(4);
 
-                    if (coords != null)
-                        figure = _interactor.CreatePolygon("parallelogram", coords);
+                        if (coords != null)
+                            figure = _interactor.CreatePolygon("parallelogram", coords);
                     
-                    break;
+                        break;
 
-                case "4":
-                    coords = ReadCoords(3);
+                    case "4":
+                        coords = ReadCoords(3);
 
-                    if (coords != null)
-                        figure = _interactor.CreatePolygon("triangle", coords);
+                        if (coords != null)
+                            figure = _interactor.CreatePolygon("triangle", coords);
 
-                    break;
+                        break;
 
-                case "5":
-                    coords = ReadCoords(4);
+                    case "5":
+                        coords = ReadCoords(4);
 
-                    if (coords != null)
-                        figure = _interactor.CreatePolygon("trapeze", coords);
+                        if (coords != null)
+                            figure = _interactor.CreatePolygon("trapeze", coords);
 
-                    break;
+                        break;
 
-                case "6":
-                    Console.Write("Enter the amount of apexes: ");
-                    int amount = Int32.Parse(Console.ReadLine());
-                    Console.WriteLine();
+                    case "6":
+                        Console.Write("Enter the amount of apexes: ");
+                        int amount = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine();
 
-                    coords = ReadCoords(amount);
+                        coords = ReadCoords(amount);
 
-                    if (coords != null)
-                        figure = _interactor.CreatePolygon("custom", coords);
+                        if (coords != null)
+                            figure = _interactor.CreatePolygon("custom", coords);
 
-                    break;
+                        break;
 
-                case "b":
-                    Console.Clear();
-                    return;
+                    case "b":
+                        Console.Clear();
+                        return;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Clear();
+                ConsoleView.ColorizeError(e.Message);
+                Console.WriteLine();
             }
 
             if (figure != null)

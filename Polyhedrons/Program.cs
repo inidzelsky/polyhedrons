@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Polyhedrons
+﻿namespace Polyhedrons
 {
     class Program
     {
